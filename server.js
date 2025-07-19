@@ -3,39 +3,68 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
+// Load environment variables
+dotenv.config();
+
+// Import routes
 import productRoutes from './routes/productRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 
-dotenv.config();
+// Optional: import cloudinary config
+// import './utils/cloudinary.js';
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch((err) => console.error("❌ MongoDB Error:", err));
+// ✅ MongoDB Connection
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => {
+  console.log("✅ MongoDB Connected");
+}).catch((err) => {
+  console.error("❌ MongoDB Error:", err);
+});
 
-// Middleware
+// ✅ CORS Configuration
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://bliss-organic-frontend.netlify.app/' // ⬅️ Replace with your actual Netlify frontend URL
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('❌ Not allowed by CORS'));
+    }
+  },
+  credentials: true,
 }));
+
+// ✅ Middlewares
 app.use(express.json());
 
-// Routes
+// ✅ Routes
 app.use('/api/products', productRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 
-// Default route
+// ✅ Default Route
 app.get('/', (req, res) => {
   res.send('🌿 Bliss Organic Store Backend Running...');
 });
 
-// Start server
+// ✅ Fallback route (for 404)
+app.use((req, res, next) => {
+  res.status(404).json({ message: '❌ Route not found' });
+});
+
+// ✅ Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
