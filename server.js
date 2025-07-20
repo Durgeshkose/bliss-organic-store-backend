@@ -44,8 +44,8 @@ app.use(express.json());
 
 //  Routes
 app.use('/api/products', productRoutes);
-app.use('/admin', adminRoutes);
-app.use('/users', userRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/users', userRoutes);
 app.use('/orders', orderRoutes);
 
 //  Default Route
