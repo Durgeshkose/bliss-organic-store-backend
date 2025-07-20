@@ -23,48 +23,42 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {
-  console.log("✅ MongoDB Connected");
+  console.log(" MongoDB Connected");
 }).catch((err) => {
-  console.error("❌ MongoDB Error:", err);
+  console.error(" MongoDB Error:", err);
 });
 
-// ✅ CORS Configuration
+//  CORS Configuration
 const allowedOrigins = [
-  'http://localhost:5173',
-  'https://bliss-organic-frontend.netlify.app/' // ⬅️ Replace with your actual Netlify frontend URL
+  'http://localhost:5173', // local URL
+  'https://bliss-organic-store.netlify.app' // production URL
 ];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('❌ Not allowed by CORS'));
-    }
-  },
+  origin: ['http://localhost:5173', 'https://bliss-organic-store.netlify.app'],
   credentials: true,
 }));
 
-// ✅ Middlewares
+//  Middlewares
 app.use(express.json());
 
-// ✅ Routes
+//  Routes
 app.use('/api/products', productRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 
-// ✅ Default Route
+//  Default Route
 app.get('/', (req, res) => {
-  res.send('🌿 Bliss Organic Store Backend Running...');
+  res.send(' Bliss Organic Store Backend Running...');
 });
 
-// ✅ Fallback route (for 404)
+//  Fallback route (for 404)
 app.use((req, res, next) => {
-  res.status(404).json({ message: '❌ Route not found' });
+  res.status(404).json({ message: ' Route not found' });
 });
 
-// ✅ Start Server
+//  Start Server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(` Server running on http://localhost:${PORT}`);
 });

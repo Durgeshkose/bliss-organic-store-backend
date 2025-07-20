@@ -1,5 +1,5 @@
 import express from 'express';
-import { upload } from '../utils/cloudinary.js'; // ✅ ESM import
+import { upload } from '../utils/cloudinary.js'; //  ESM import
 
 import {
   getAllProducts,

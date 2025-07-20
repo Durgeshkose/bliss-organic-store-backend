@@ -61,9 +61,9 @@ export const updateProduct = async (req, res) => {
 };
 
 // Get product by ID
+// This function retrieves a product by its ID and returns it in the response.
 export const getProductById = async (req, res) => {
   const { id } = req.params;
-  // 👇 ObjectId check yahan lagayein
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ message: "Product not found" });
   }

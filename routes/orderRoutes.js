@@ -6,10 +6,10 @@ import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// 🔹 Route to fetch user's own orders
+//  Route to fetch user's own orders
 router.get('/my-orders', protect, getMyOrders);
 
-// 🔹 Route to create a new order
+//  Route to create a new order
 router.post('/', protect, createOrder);
 
 export default router;
