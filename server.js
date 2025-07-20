@@ -43,7 +43,7 @@ app.use(cors({
 app.use(express.json());
 
 //  Routes
-app.use('/products', productRoutes);
+app.use('/api/products', productRoutes);
 app.use('/admin', adminRoutes);
 app.use('/users', userRoutes);
 app.use('/orders', orderRoutes);
